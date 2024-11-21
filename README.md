@@ -7,7 +7,7 @@
 2. Start apache dan mysql di xampp
 3. Create new database dengan nama 'nanolib' melalui phpmyadmin
 4. Buka directory nanolib di terminal
-5. Jalankan pip install -r requirements.txt
+5. Jalankan composer require endroid/qr-code
 6. Jalankan php artisan migrate
 7. Jalankan php artisan serve
 8. Website bisa diakses!
