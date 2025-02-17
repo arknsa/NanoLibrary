@@ -8,6 +8,7 @@ use DB;
 
 class Pengembalian extends Model
 {
+    use HasFactory;
     protected $table = 'pengembalian';
     protected $primaryKey = 'ID_Pengembalian';
     public $timestamps = false;

@@ -11,17 +11,18 @@ class CreateActiveUsersTable extends Migration
         Schema::create('active_users', function (Blueprint $table) {
             $table->increments('id'); // ID untuk tabel ini
             $table->unsignedInteger('user_id'); // Menggunakan user_id sebagai foreign key
-            $table->timestamp('entry_time')->nullable();
-            $table->timestamp('exit_time')->nullable();
+            $table->timestamp('entry_time')->nullable(); // Waktu masuk
+            $table->timestamp('exit_time')->nullable(); // Waktu keluar
+            $table->timestamp('entry_date')->nullable(); // Kolom baru untuk tanggal dengan waktu 00.00.00
             $table->timestamps();
 
-            // Menetapkan foreign key
             $table->foreign('user_id')
-                  ->references('ID_User')
-                  ->on('user')
-                  ->onDelete('cascade'); // Hapus entri ini ketika user dihapus
+                ->references('ID_User')
+                ->on('user')
+                ->onDelete('cascade');
         });
     }
+
 
     public function down()
     {

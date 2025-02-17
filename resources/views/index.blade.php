@@ -257,9 +257,8 @@
                 </div>
                 <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.7s">
                     <h5 class="text-white mb-4">Layanan Kami</h5>
-                    <a class="btn btn-link" href="/mhs-profil">Ruang Baca</a>
-                    <a class="btn btn-link" href="/mhs-peminjaman">Peminjaman Buku</a>
-                    <a class="btn btn-link" href="/mhs-ebook">E-Book</a>
+                    <a class="btn btn-link" href="/ruangbaca">Ruang Baca</a>
+                    <a class="btn btn-link" href="/mhs/layananbuku">Peminjaman Buku</a>
                     <a class="btn btn-link" href="https://e-journal.unair.ac.id/JATM">E-Journal</a>
                 </div>
                 <div class="col-lg-3"></div>

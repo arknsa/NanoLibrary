@@ -95,10 +95,48 @@
                   Menampilkan {{ $mahasiswas->firstItem() ?? 0 }} sampai {{ $mahasiswas->lastItem() ?? 0 }} dari {{ $mahasiswas->total() }} entri
               </div>
               <div class="dataTables_paginate paging_simple_numbers">
-                  {{ $mahasiswas->links() }} <!-- Laravel's pagination links -->
+                  @if ($mahasiswas->hasPages())
+                      <nav aria-label="Page navigation">
+                          <ul class="pagination justify-content-center">
+                              <!-- Tombol Previous -->
+                              @if ($mahasiswas->onFirstPage())
+                                  <li class="page-item disabled">
+                                      <span class="page-link">Previous</span>
+                                  </li>
+                              @else
+                                  <li class="page-item">
+                                      <a class="page-link" href="{{ $mahasiswas->previousPageUrl() }}" rel="prev">Previous</a>
+                                  </li>
+                              @endif
+
+                              <!-- Nomor Halaman -->
+                              @foreach ($mahasiswas->getUrlRange(1, $mahasiswas->lastPage()) as $page => $url)
+                                  @if ($page == $mahasiswas->currentPage())
+                                      <li class="page-item active">
+                                          <span class="page-link">{{ $page }}</span>
+                                      </li>
+                                  @else
+                                      <li class="page-item">
+                                          <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                      </li>
+                                  @endif
+                              @endforeach
+
+                              <!-- Tombol Next -->
+                              @if ($mahasiswas->hasMorePages())
+                                  <li class="page-item">
+                                      <a class="page-link" href="{{ $mahasiswas->nextPageUrl() }}" rel="next">Next</a>
+                                  </li>
+                              @else
+                                  <li class="page-item disabled">
+                                      <span class="page-link">Next</span>
+                                  </li>
+                              @endif
+                          </ul>
+                      </nav>
+                  @endif
               </div>
           </div>
-
         </div>
       </div>
     </div>

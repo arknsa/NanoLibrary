@@ -11,6 +11,17 @@ class DatabaseSeeder extends Seeder
         // Memanggil BookSeeder
         $this->call([
             BookSeeder::class,
+            UserSeeder::class,
+            PemesananSeeder::class,     // Seeder untuk Pemesanan
+            PengembalianSeeder::class,  // Seeder untuk Pengembalian
+            PeminjamanSeeder::class,
+            UserHistorySeeder::class,
+            // FactTransaksiSeeder::class,
+            // FactDendaSeeder::class,
+            // FactKunjunganSeeder::class,
+            // DimBukuSeeder::class,
+            // DimUserSeeder::class,
+            // DimWaktuSeeder::class,
         ]);
     }
 }

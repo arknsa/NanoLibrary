@@ -60,6 +60,7 @@ class RoomController extends Controller
                 'program_studi' => $user->Program_Studi,
                 'entry_time' => $activeUser->entry_time,
                 'exit_time' => $activeUser->exit_time,
+                'entry_date' => Carbon::today(),
             ]);
 
             // Hapus dari active_users

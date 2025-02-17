@@ -139,7 +139,7 @@
         <div class="container py-5">
             <div class="row g-5">
                 <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.1s">
-                    <a href="index.html" class="d-inline-block mb-3">
+                    <a href="/" class="d-inline-block mb-3">
                         <img src="{{ asset('assets1/img/logo.svg') }}" alt="Logo" style="height: 30px;">
                     </a>
                     <div class="d-flex pt-2">

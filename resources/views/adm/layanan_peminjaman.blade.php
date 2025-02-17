@@ -98,19 +98,12 @@
           <!-- Pagination controls -->
           <div class="d-flex justify-content-between align-items-center mt-3">
               <div class="dataTables_info" role="status" aria-live="polite">
-                  @if($peminjaman instanceof \Illuminate\Pagination\LengthAwarePaginator)
-                      Menampilkan {{ $peminjaman->firstItem() }} sampai {{ $peminjaman->lastItem() }} dari {{ $peminjaman->total() }} entri
-                  @else
-                      Menampilkan {{ $peminjaman->count() }} entri
-                  @endif
+                  Menampilkan {{ $peminjaman->firstItem() ?? 0 }} sampai {{ $peminjaman->lastItem() ?? 0 }} dari {{ $peminjaman->total() }} entri
               </div>
               <div class="dataTables_paginate paging_simple_numbers">
-                  @if($peminjaman instanceof \Illuminate\Pagination\LengthAwarePaginator)
-                      {{ $peminjaman->appends(['per_page' => request('per_page')])->links() }} <!-- Laravel's pagination links dengan parameter per_page -->
-                  @endif
+                  {{ $peminjaman->appends(['per_page' => request('per_page')])->links('pagination::bootstrap-4') }}
               </div>
           </div>
-
         </div>
       </div>
     </div>

@@ -199,6 +199,52 @@
             </div>
         </div>
 
+        <!-- Tambahkan baris baru untuk visualisasi dari Fact Kunjungan dan Fact Transaksi -->
+        <!-- Visualisasi: Tren Kunjungan Harian -->
+        <!-- Dropdown Filter -->
+        <div class="form-group mb-3">
+            <label for="filter">Filter by:</label>
+            <select class="form-select" id="filter" onchange="loadChart(this.value)">
+                <option value="day" @if($kunjunganFilter == 'day') selected @endif>Day</option>
+                <option value="month" @if($kunjunganFilter == 'month') selected @endif>Month</option>
+                <option value="quarter" @if($kunjunganFilter == 'quarter') selected @endif>Quarter</option>
+                <option value="year" @if($kunjunganFilter == 'year') selected @endif>Year</option>
+            </select>
+        </div>
+
+        <!-- Line Chart -->
+        <div class="chart-container">
+            <canvas id="kunjunganLineChart"></canvas>
+        </div>
+
+
+        <!-- Visualisasi: Status Transaksi -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card card-round">
+                    <div class="card-body">
+                        <h4 class="fw-bold">Distribusi Status Transaksi</h4>
+                        <div class="chart-container" style="position: relative; width: 100%;">
+                            <canvas id="transaksiDonutChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visualisasi: Total Denda Keterlambatan -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card card-round">
+                    <div class="card-body">
+                        <h4 class="fw-bold">Total Denda Keterlambatan</h4>
+                        <div class="chart-container">
+                            <canvas id="terlambatBarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -207,6 +253,9 @@
 
 <!-- JavaScript untuk Menginisialisasi Chart -->
 <script>
+    function loadChart(filter) {
+            window.location.href = '?filter=' + filter;
+        }
 document.addEventListener('DOMContentLoaded', function() {
     // Data untuk Line Chart
     const lineChartLabels = @json($lineChartLabels);
@@ -368,6 +417,119 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+
+    const kunjunganLabels = @json($kunjunganLabels);
+    const kunjunganDataValues = @json($kunjunganDataValues);
+
+    // Initialize the chart
+    const ctx = document.getElementById('kunjunganLineChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: kunjunganLabels,
+            datasets: [{
+                label: 'Jumlah Kunjungan',
+                data: kunjunganDataValues,
+                backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                borderColor: 'rgba(255, 159, 64, 1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                }
+            }
+        }
+    });
+
+
+    // Data transaksi status (pastikan data disiapkan di controller)
+    const transaksiStatusLabels = @json($transaksiStatusLabels ?? ['Tepat Waktu', 'Terlambat']);
+    const transaksiStatusData = @json($transaksiStatusData ?? [($tepatWaktu ?? 0), ($terlambat ?? 0)]);
+
+    const ctxTransaksiDonut = document.getElementById('transaksiDonutChart').getContext('2d');
+    new Chart(ctxTransaksiDonut, {
+        type: 'doughnut',
+        data: {
+            labels: transaksiStatusLabels,
+            datasets: [{
+                data: transaksiStatusData,
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.6)',    // Hijau (Tepat Waktu)
+                    'rgba(255, 99, 132, 0.6)',    // Merah (Terlambat)
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',   
+                    'rgba(255, 99, 132, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            cutout: '60%', // Membuat donut
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    enabled: true
+                }
+            }
+        }
+    });
+    
+    // Data Terlambat Denda
+    const terlambatLabels = @json($terlambatLabels);
+    const terlambatData = @json($terlambatData);
+
+    const ctxTerlambat = document.getElementById('terlambatBarChart').getContext('2d');
+    new Chart(ctxTerlambat, {
+        type: 'bar',
+        data: {
+            labels: terlambatLabels,
+            datasets: [{
+                label: 'Total Denda (Rp)',
+                data: terlambatData,
+                backgroundColor: 'rgba(153, 50, 204, 0.6)', // Ungu Transparan
+                borderColor: 'rgba(153, 50, 204, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                tooltip: {
+                    enabled: true,
+                    callbacks: {
+                        label: function(context) {
+                            const value = context.parsed.y;
+                            return 'Rp. ' + value.toLocaleString(); // Format ribuan
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
 });
 </script>
 
